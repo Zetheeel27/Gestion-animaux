@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pendant mon absence — Guide de la maison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2E2A26;
+    --ink-soft:#5A5249;
+    --paper:#FFFDF9;
+    --rabbit:#E8965B;
+    --rabbit-bg:#FCEFE2;
+    --rabbit-line:#F0C49B;
+    --horse:#A87C4F;
+    --horse-bg:#F3E8DA;
+    --horse-line:#DBBE99;
+    --hen:#D9A22A;
+    --hen-bg:#FCF2D6;
+    --hen-line:#EDD192;
+    --cat:#9279BD;
+    --cat-bg:#EFE8F8;
+    --cat-line:#CFBBE8;
+    --alert:#D9694F;
+    --alert-bg:#FBE6DF;
+    --alert-line:#F0B7A3;
+    --good:#5E9E7A;
+    --nav-h:64px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:#EFEAE2;
+    font-family:'Nunito', sans-serif;
+    color:var(--ink);
+  }
+
+  /* =========== NAVBAR =========== */
+  .navbar{
+    position:fixed;
+    top:0; left:0; right:0;
+    height:var(--nav-h);
+    background:rgba(255,253,249,0.95);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1.5px solid #E5DFD3;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    padding:0 20px;
+    gap:8px;
+    box-shadow:0 2px 12px rgba(0,0,0,0.06);
+  }
+  .nav-logo{
+    font-family:'Quicksand',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    color:var(--ink);
+    margin-right:auto;
+    white-space:nowrap;
+  }
+  .nav-logo span{color:var(--rabbit);}
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:4px;
+  }
+  .nav-btn{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 14px;
+    border-radius:999px;
+    border:none;
+    background:transparent;
+    font-family:'Nunito',sans-serif;
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--ink-soft);
+    cursor:pointer;
+    text-decoration:none;
+    transition:background 0.18s, color 0.18s;
+    white-space:nowrap;
+  }
+  .nav-btn:hover{
+    background:#F0EBE3;
+    color:var(--ink);
+  }
+  .nav-btn.active{
+    color:var(--ink);
+  }
+  .nav-btn.rabbit:hover,.nav-btn.rabbit.active{background:var(--rabbit-bg); color:#7A4116;}
+  .nav-btn.horse:hover,.nav-btn.horse.active{background:var(--horse-bg); color:#5C401F;}
+  .nav-btn.hen:hover,.nav-btn.hen.active{background:var(--hen-bg); color:#73530C;}
+  .nav-btn.cat:hover,.nav-btn.cat.active{background:var(--cat-bg); color:#4B3878;}
+  .nav-btn.bonus:hover,.nav-btn.bonus.active{background:#FFF9E6; color:#7A6A00;}
+
+  /* =========== URGENCE BUTTON =========== */
+  .btn-urgence{
+    position:fixed;
+    top:calc(var(--nav-h) + 14px);
+    left:20px;
+    z-index:200;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:#D9694F;
+    color:#fff;
+    border:none;
+    border-radius:999px;
+    padding:9px 18px;
+    font-family:'Nunito',sans-serif;
+    font-size:13.5px;
+    font-weight:800;
+    cursor:pointer;
+    box-shadow:0 3px 14px rgba(217,105,79,0.45);
+    transition:background 0.18s, transform 0.15s;
+    letter-spacing:0.01em;
+  }
+  .btn-urgence:hover{background:#C25840; transform:scale(1.03);}
+  .btn-urgence .pulse{
+    width:10px; height:10px;
+    background:#fff;
+    border-radius:50%;
+    animation:pulse 1.6s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1; transform:scale(1);}
+    50%{opacity:0.5; transform:scale(0.75);}
+  }
+
+  /* =========== POPUP OVERLAY =========== */
+  .popup-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(30,20,10,0.62);
+    z-index:500;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:16px;
+    overflow-y:auto;
+  }
+  .popup{
+    background:var(--paper);
+    border-radius:24px;
+    max-width:560px;
+    width:100%;
+    max-height:90vh;
+    overflow-y:auto;
+    padding:28px 30px 24px;
+    position:relative;
+    box-shadow:0 12px 48px rgba(0,0,0,0.22);
+    animation:slideUp 0.3s ease;
+  }
+  @keyframes slideUp{
+    from{transform:translateY(24px); opacity:0;}
+    to{transform:translateY(0); opacity:1;}
+  }
+  .popup-header{
+    text-align:center;
+    margin-bottom:20px;
+  }
+  .popup-icon{font-size:38px; display:block; margin-bottom:8px;}
+  .popup-header h2{
+    font-family:'Quicksand',sans-serif;
+    font-size:22px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:6px;
+  }
+  .popup-header p{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    line-height:1.5;
+  }
+
+  /* progress bar */
+  .progress-bar-wrap{
+    background:#EDE8DF;
+    border-radius:999px;
+    height:6px;
+    margin-bottom:20px;
+    overflow:hidden;
+  }
+  .progress-bar-fill{
+    height:100%;
+    background:var(--alert);
+    border-radius:999px;
+    transition:width 0.3s ease;
+  }
+  .progress-label{
+    font-size:12px;
+    color:var(--ink-soft);
+    text-align:center;
+    margin-top:6px;
+    margin-bottom:16px;
+  }
+
+  /* sections dans popup */
+  .popup-section{
+    border-radius:18px;
+    padding:16px 18px;
+    margin-bottom:14px;
+  }
+  .popup-section.canicule{
+    background:var(--alert-bg);
+    border:1.5px solid var(--alert-line);
+  }
+  .popup-section.horse-note{
+    background:#FBF5EC;
+    border:1.5px dashed var(--horse-line);
+  }
+  .popup-section h3{
+    font-family:'Quicksand',sans-serif;
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .popup-section.canicule h3{color:#A33A1F;}
+  .popup-section.horse-note h3{color:#5C401F;}
+  .popup-section p{
+    font-size:13.5px;
+    line-height:1.55;
+    margin-bottom:8px;
+  }
+  .popup-section.canicule p{color:#7A3019;}
+  .popup-section.horse-note p{color:#54391A;}
+  .popup-section ul{
+    font-size:13.5px;
+    line-height:1.55;
+    padding-left:18px;
+    margin-bottom:8px;
+  }
+  .popup-section.canicule ul{color:#7A3019;}
+  .popup-section.horse-note ul{color:#54391A;}
+  .popup-section ul li{margin-bottom:4px;}
+
+  .popup-section .vet-line{
+    margin-top:10px;
+    font-size:13px;
+    font-weight:700;
+    color:#A33A1F;
+    border-top:1px dashed var(--alert-line);
+    padding-top:10px;
+  }
+
+  /* read more toggle */
+  .read-more-toggle{
+    background:none;
+    border:none;
+    font-family:'Nunito',sans-serif;
+    font-size:13px;
+    color:var(--rabbit);
+    font-weight:700;
+    cursor:pointer;
+    padding:0;
+    margin-top:4px;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    text-decoration:underline;
+  }
+  .collapsible{
+    overflow:hidden;
+    transition:max-height 0.35s ease;
+    max-height:0;
+  }
+  .collapsible.open{max-height:600px;}
+
+  /* checkbox de lecture */
+  .popup-check-area{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 16px;
+    background:#F6F1E7;
+    border-radius:14px;
+    margin-bottom:14px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .popup-check-area input[type=checkbox]{
+    width:20px; height:20px;
+    accent-color:var(--alert);
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .popup-check-area label{
+    font-size:14px;
+    font-weight:700;
+    color:var(--ink);
+    cursor:pointer;
+    line-height:1.4;
+  }
+
+  .btn-fermer{
+    display:block;
+    width:100%;
+    padding:14px;
+    background:var(--alert);
+    color:#fff;
+    border:none;
+    border-radius:14px;
+    font-family:'Nunito',sans-serif;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+    transition:background 0.18s, opacity 0.18s;
+    letter-spacing:0.01em;
+  }
+  .btn-fermer:hover:not(:disabled){background:#C25840;}
+  .btn-fermer:disabled{
+    background:#C7BEB3;
+    cursor:not-allowed;
+    opacity:0.75;
+  }
+  .btn-fermer-hint{
+    font-size:12px;
+    color:var(--ink-soft);
+    text-align:center;
+    margin-top:8px;
+    min-height:18px;
+  }
+
+  /* =========== MAIN CONTENT =========== */
+  .main-wrap{
+    padding-top:calc(var(--nav-h) + 24px);
+    padding-bottom:40px;
+  }
+
+  /* =========== PAGES =========== */
+  .page{
+    width:min(210mm, 100%);
+    margin:0 auto 32px;
+    background:var(--paper);
+    padding:18mm 16mm;
+    border-radius:20px;
+    box-shadow:0 4px 24px rgba(0,0,0,0.07);
+  }
+  .page:last-child{margin-bottom:0;}
+
+  h1,h2,h3{font-family:'Quicksand', sans-serif; margin:0;}
+
+  /* =========== COVER =========== */
+  .cover{text-align:center;}
+  .cover-top{margin-bottom:24px;}
+  .cover-leaf{font-size:46px;}
+  .cover h1{font-size:36px; font-weight:700; color:var(--ink); margin-top:10px; line-height:1.15;}
+  .cover h1 span{color:var(--rabbit);}
+  .cover .sub{font-size:16px; color:var(--ink-soft); margin-top:10px; max-width:120mm; margin-left:auto; margin-right:auto; line-height:1.5;}
+  .cover-message{
+    background:var(--rabbit-bg); border:1.5px dashed var(--rabbit-line); border-radius:18px;
+    padding:18px 22px; margin:20px auto 0; max-width:140mm;
+    font-size:14.5px; line-height:1.6; color:var(--ink-soft);
+  }
+  .legend{display:flex; justify-content:center; gap:28px; margin-top:16px; flex-wrap:wrap;}
+  .legend-item{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-soft);}
+  .infos-pratiques{border:1.5px solid #E5DFD3; border-radius:18px; padding:16px 22px; margin-top:24px; text-align:left;}
+  .infos-pratiques h3{font-size:15px; color:var(--ink); margin-bottom:10px;}
+  .infos-grid{display:grid;  gap:10px 24px; font-size:13.5px;}
+  .infos-grid div{border-bottom:1px dotted #D8D1C4; padding-bottom:4px;}
+  .infos-grid b{color:var(--ink-soft); font-weight:700;}
+  .toc{margin-top:24px; text-align:left;}
+  .toc h3{font-size:14px; color:var(--ink-soft); margin-bottom:10px; letter-spacing:.04em; text-transform:uppercase;}
+  .toc ul{list-style:none; display:flex; flex-wrap:wrap; gap:10px;}
+  .toc li{font-size:13.5px; font-weight:700; background:#F4F1E9; border-radius:999px; padding:7px 16px;}
+  .cover-bottom{font-size:12.5px; color:#A39C8C; margin-top:24px;}
+
+  /* =========== SECTION HEADER =========== */
+  .section-head{
+    display:flex; align-items:center; gap:16px; border-radius:20px;
+    padding:16px 22px; margin-bottom:18px;
+  }
+  .section-head .badge{
+    width:56px; height:56px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:30px; background:rgba(255,255,255,.65); flex-shrink:0;
+  }
+  .section-head h2{font-size:26px; font-weight:700;}
+  .section-head .tag{font-size:12.5px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; opacity:.75;}
+  .rabbit-head{background:var(--rabbit-bg); color:#7A4116;}
+  .horse-head{background:var(--horse-bg); color:#5C401F;}
+  .hen-head{background:var(--hen-bg); color:#73530C;}
+  .cat-head{background:var(--cat-bg); color:#4B3878;}
+
+  /* =========== CARDS =========== */
+  .card{border-radius:18px; padding:16px 20px 10px; margin-bottom:16px; box-shadow:0 2px 10px rgba(0,0,0,.04);}
+  .card h3{font-size:13.5px; text-transform:uppercase; letter-spacing:.04em; margin-bottom:10px; font-weight:800; opacity:.85;}
+  .checklist{list-style:none;}
+  .checklist li{
+    display:flex; align-items:flex-start; gap:12px;
+    font-size:15px; font-weight:600; line-height:1.45;
+    padding:11px 10px; margin-bottom:6px;
+    border-radius:12px;
+    background:rgba(255,255,255,.55);
+    border:1.5px solid rgba(0,0,0,.05);
+    cursor:pointer;
+    transition:background .15s, opacity .15s, transform .1s;
+    user-select:none;
+  }
+  .checklist li:last-child{margin-bottom:0;}
+  .checklist li:hover{background:rgba(255,255,255,.85); transform:translateX(1px);}
+  .checklist li:active{transform:scale(0.99);}
+  .checklist li.checked{
+    background:rgba(255,255,255,.25);
+    opacity:.55;
+  }
+  .checklist li.checked .box{background:currentColor;}
+  .checklist li.checked .box::after{opacity:1; transform:scale(1) rotate(-3deg);}
+  .checklist li.checked span:not(.box){text-decoration:line-through; text-decoration-thickness:1.5px;}
+  .box{
+    position:relative;
+    width:22px; height:22px; min-width:22px; border-radius:7px;
+    border:2.3px solid currentColor; margin-top:0;
+    flex-shrink:0;
+    transition:background .15s;
+  }
+  .box::after{
+    content:'✓';
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:14px; font-weight:900;
+    opacity:0; transform:scale(0.4) rotate(-3deg);
+    transition:opacity .15s, transform .15s;
+  }
+  .rabbit-card{background:var(--rabbit-bg); color:#7A4116;}
+  .horse-card{background:var(--horse-bg); color:#5C401F;}
+  .hen-card{background:var(--hen-bg); color:#73530C;}
+  .cat-card{background:var(--cat-bg); color:#4B3878;}
+
+  /* =========== NOTES =========== */
+  .note{border-radius:16px; border:1.5px solid; padding:14px 18px 14px 16px; margin-bottom:14px; font-size:14px; line-height:1.55;}
+  .note h4{font-family:'Quicksand',sans-serif; font-size:14px; margin:0 0 8px 0; font-weight:800; display:flex; align-items:center; gap:7px;}
+  .note ul{margin:0; padding:0; list-style:none;}
+  .note li{margin-bottom:7px; padding-left:20px; position:relative;}
+  .note li:last-child{margin-bottom:0;}
+  .note li::before{content:'•'; position:absolute; left:4px; font-weight:900; opacity:.55;}
+  .note li b{font-weight:800;}
+  .note li.note-highlight{
+    list-style:none; padding:9px 12px 9px 12px; margin:2px 0 9px;
+    background:rgba(255,255,255,.55); border-radius:10px;
+    border-left:4px solid currentColor; font-weight:600;
+  }
+  .note li.note-highlight::before{content:none;}
+  .note li.note-highlight .tag-important{
+    display:inline-block; font-size:11px; font-weight:900; letter-spacing:.03em;
+    text-transform:uppercase; padding:2px 8px; border-radius:999px;
+    background:currentColor; color:#fff; margin-right:7px; vertical-align:1px;
+  }
+  .rabbit-note{border-color:var(--rabbit-line); background:#FFF8F0; color:#6B3A12;}
+  .horse-note{border-color:var(--horse-line); background:#FBF5EC; color:#54391A;}
+  .hen-note{border-color:var(--hen-line); background:#FFFAEC; color:#6A4C09;}
+  .cat-note{border-color:var(--cat-line); background:#F9F6FD; color:#42316E;}
+
+  /* =========== ALERT BOX =========== */
+  .alert{background:var(--alert-bg); border:2px solid var(--alert-line); border-radius:18px; padding:16px 20px; margin-top:6px;}
+  .alert-title{display:flex; align-items:center; gap:9px; font-family:'Quicksand',sans-serif; font-weight:700; font-size:15px; color:#A33A1F; margin-bottom:8px;}
+  .alert p,.alert ul{font-size:13.5px; line-height:1.55; color:#7A3019; margin:6px 0;}
+  .alert ul{padding-left:20px;}
+  .alert .vet-line{margin-top:10px; font-size:13.5px; font-weight:700; color:#A33A1F; border-top:1px dashed var(--alert-line); padding-top:10px;}
+  .vet-blank{display:inline-block; min-width:90mm; border-bottom:1.4px dotted #A33A1F; margin-left:6px;}
+
+  /* =========== BOUTON ALERTE (déclenche un email) =========== */
+  .alert-trigger{
+    margin-top:12px; padding-top:12px; border-top:1px dashed var(--alert-line);
+  }
+  .btn-alert-toggle{
+    display:flex; align-items:center; gap:10px; width:100%;
+    background:#fff; border:2px solid var(--alert-line); border-radius:14px;
+    padding:11px 14px; cursor:pointer; text-align:left;
+    font-family:'Nunito',sans-serif; font-size:13.5px; font-weight:700; color:#A33A1F;
+    transition:background .15s, border-color .15s;
+  }
+  .btn-alert-toggle:hover{background:var(--alert-bg);}
+  .btn-alert-toggle .alert-box{
+    width:20px; height:20px; min-width:20px; border-radius:7px;
+    border:2.3px solid currentColor; position:relative; flex-shrink:0;
+  }
+  .btn-alert-toggle .alert-box::after{
+    content:'✓'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:13px; font-weight:900; opacity:0; transition:opacity .15s;
+  }
+  .btn-alert-toggle.sent{background:var(--alert); color:#fff; border-color:var(--alert);}
+  .btn-alert-toggle.sent .alert-box{background:#fff; color:var(--alert);}
+  .btn-alert-toggle.sent .alert-box::after{opacity:1;}
+  .btn-alert-toggle.sending{opacity:.7; cursor:wait;}
+  .btn-alert-toggle.sending .alert-box::after{content:'…'; opacity:1; animation:sendingDots 1s infinite;}
+  @keyframes sendingDots{0%,100%{opacity:.3;} 50%{opacity:1;}}
+  .alert-trigger-hint{font-size:11.5px; color:#A33A1F; opacity:.75; margin-top:6px; padding-left:2px;}
+
+  .subgroup-label{font-size:13px; font-weight:700; margin:14px 0 6px 2px; opacity:.85;}
+
+  /* =========== BONUS =========== */
+  .bonus-head{text-align:center; margin-bottom:22px;}
+  .bonus-head .icon{font-size:38px;}
+  .bonus-head h2{font-size:28px; margin-top:6px;}
+  .bonus-head p{color:var(--ink-soft); font-size:14px; max-width:120mm; margin:8px auto 0; line-height:1.5;}
+  .bonus-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .bonus-card{border-radius:18px; padding:16px 18px; background:#F6F3EC; border:1.5px solid #E5DFD0;}
+  .bonus-card h4{font-family:'Quicksand',sans-serif; font-size:14.5px; margin:0 0 8px; display:flex; align-items:center; gap:7px;}
+  .bonus-card ul{margin:0; padding-left:18px; font-size:13.5px; line-height:1.55; color:var(--ink-soft);}
+  .photo-callout{margin-top:18px; background:linear-gradient(135deg, var(--rabbit-bg), var(--cat-bg)); border-radius:18px; padding:18px 22px; text-align:center; font-size:14px; color:#4B3878; line-height:1.55;}
+  .photo-callout .icon{font-size:24px; display:block; margin-bottom:6px;}
+  .footer-note{text-align:center; margin-top:26px; font-size:12.5px; color:#B5AE9C;}
+
+  /* =========== SCROLL INDICATOR =========== */
+  .section-anchor{display:block; height:1px; pointer-events:none;}
+
+  /* =========== BOUTONS FLOTTANTS MESSAGE / PHOTO =========== */
+  .fab-group{
+    position:fixed;
+    bottom:24px;
+    right:20px;
+    z-index:300;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:10px;
+  }
+  .fab-label{
+    font-size:12px;
+    font-weight:700;
+    color:#fff;
+    background:rgba(46,42,38,0.72);
+    border-radius:999px;
+    padding:4px 10px;
+    white-space:nowrap;
+    opacity:0;
+    transform:translateX(6px);
+    transition:opacity 0.18s, transform 0.18s;
+    pointer-events:none;
+  }
+  .fab-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .fab-row:hover .fab-label{opacity:1; transform:translateX(0);}
+  .fab-btn{
+    width:52px; height:52px;
+    border-radius:50%;
+    border:none;
+    cursor:pointer;
+    font-size:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 16px rgba(0,0,0,0.18);
+    transition:transform 0.15s, box-shadow 0.15s;
+    flex-shrink:0;
+  }
+  .fab-btn:hover{transform:scale(1.08); box-shadow:0 6px 22px rgba(0,0,0,0.22);}
+  .fab-btn:active{transform:scale(0.96);}
+  .fab-btn.msg{background:var(--cat);}
+  .fab-btn.photo{background:var(--good);}
+
+  /* =========== MODAL MESSAGE / PHOTO =========== */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(30,20,10,0.55);
+    z-index:600;
+    display:flex; align-items:center; justify-content:center;
+    padding:16px;
+  }
+  .modal-box{
+    background:var(--paper);
+    border-radius:24px;
+    width:100%; max-width:480px;
+    padding:26px 28px 22px;
+    box-shadow:0 12px 48px rgba(0,0,0,0.22);
+    animation:slideUp 0.28s ease;
+    position:relative;
+  }
+  .modal-box h3{
+    font-family:'Quicksand',sans-serif;
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .modal-box p.modal-sub{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    margin-bottom:18px;
+    line-height:1.45;
+  }
+  .modal-field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    margin-bottom:14px;
+  }
+  .modal-field label{
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink-soft);
+  }
+  .modal-field select,
+  .modal-field textarea,
+  .modal-field input[type=file]{
+    font-family:'Nunito',sans-serif;
+    font-size:14px;
+    border:1.5px solid #DDD8CE;
+    border-radius:12px;
+    padding:10px 13px;
+    background:#FAFAF7;
+    color:var(--ink);
+    outline:none;
+    transition:border-color 0.18s;
+  }
+  .modal-field select:focus,
+  .modal-field textarea:focus{border-color:var(--cat);}
+  .modal-field textarea{
+    resize:vertical;
+    min-height:90px;
+  }
+  .modal-field input[type=file]{
+    padding:8px 10px;
+    cursor:pointer;
+    font-size:13px;
+  }
+  .modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:6px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px;
+    border-radius:14px;
+    border:none;
+    font-family:'Nunito',sans-serif;
+    font-size:14.5px;
+    font-weight:800;
+    cursor:pointer;
+    transition:background 0.18s, opacity 0.18s;
+  }
+  .modal-actions .btn-cancel{
+    background:#F0EBE3;
+    color:var(--ink-soft);
+  }
+  .modal-actions .btn-cancel:hover{background:#E5DFD3;}
+  .modal-actions .btn-send{
+    background:var(--cat);
+    color:#fff;
+  }
+  .modal-actions .btn-send.photo-mode{background:var(--good);}
+  .modal-actions .btn-send:hover{opacity:0.88;}
+  .modal-actions .btn-send:disabled{opacity:0.55; cursor:wait;}
+  .modal-status{
+    font-size:13px;
+    text-align:center;
+    margin-top:10px;
+    min-height:18px;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  .modal-status.ok{color:var(--good);}
+  .modal-status.err{color:var(--alert);}
+  .photo-preview{
+    margin-top:8px;
+    border-radius:12px;
+    overflow:hidden;
+    max-height:160px;
+    display:none;
+  }
+  .photo-preview img{
+    width:100%;
+    height:160px;
+    object-fit:cover;
+    display:block;
+  }
+
+  @media(max-width:640px){
+    .navbar{gap:2px; padding:0 8px;}
+    .nav-logo{display:none;}
+    .nav-btn{padding:7px 10px; font-size:12px; gap:4px;}
+    .page{padding:12mm 6mm;}
+    .bonus-grid{grid-template-columns:1fr;}
+    .infos-grid{grid-template-columns:1fr;}
+    .btn-urgence{padding:8px 14px; font-size:12px; top:calc(var(--nav-h) + 10px); left:12px;}
+    .btn-urgence .label{display:none;}
+    .fab-group{bottom:16px; right:12px;}
+    .fab-btn{width:46px; height:46px; font-size:20px;}
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+
+<!-- =========== POPUP D'ENTRÉE =========== -->
+<div class="popup-overlay" id="popupOverlay" role="dialog" aria-modal="true" aria-labelledby="popupTitle" style="display:none;">
+  <div class="popup">
+    <div class="popup-header">
+      <span class="popup-icon">🌡️</span>
+      <h2 id="popupTitle">Avant de commencer — infos importantes</h2>
+      <p>Merci de lire ces deux points clés avant de consulter le reste du guide.</p>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+    </div>
+    <p class="progress-label" id="progressLabel">Lisez les deux sections ci-dessous</p>
+
+    <!-- Section 1 : Canicule lapins -->
+    <div class="popup-section canicule">
+      <h3>🌡️ Vigilance canicule — lapins</h3>
+      <p>Un lapin en difficulté peut sembler <b>amorphe</b> : il ne s'éloigne pas si on s'approche, ne se relève pas couché, ne réagit pas à une stimulation douce.</p>
+      <button class="read-more-toggle" onclick="toggleSection(this, 'details-canicule', 1)" id="toggle-canicule" aria-expanded="false">
+        Voir les gestes à faire ▾
+      </button>
+      <div class="collapsible" id="details-canicule">
+        <div style="height:10px"></div>
+        <p>Vérifier aussi la respiration (pas trop lente, pas trop rapide) et la chaleur des oreilles.</p>
+        <p><b>Si c'est le cas :</b></p>
+        <ul>
+          <li>Le rentrer dans la maison, qui est fraîche</li>
+          <li>Humidifier légèrement le corps et les oreilles avec de l'eau fraîche <b>(jamais glacée, pas de glaçons direct — risque de choc)</b></li>
+          <li>Lui proposer de l'eau</li>
+          <li>Le laisser se reposer au calme, sans stimulation</li>
+        </ul>
+        <p>Si après 20–30 min il ne se reprend pas, appeler le vétérinaire.</p>
+        <div class="vet-line" style="color:#A33A1F; border-top:1px dashed var(--alert-line); padding-top:10px; margin-top:10px; font-size:13px; font-weight:700;">
+          Vétérinaire : <span class="vet-blank"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2 : Chevaux foin -->
+    <div class="popup-section horse-note">
+      <h3>🌾 Important — stock de foin (chevaux)</h3>
+      <p>Anticiper environ <b>3 jours avant</b> la fin du foin et envoyer un message pour organiser la livraison.</p>
+      <button class="read-more-toggle" onclick="toggleSection(this, 'details-foin', 2)" id="toggle-foin" aria-expanded="false" style="color:var(--horse);">
+        Voir pourquoi c'est urgent ▾
+      </button>
+      <div class="collapsible" id="details-foin">
+        <div style="height:10px"></div>
+        <p>S'il n'y a plus rien à manger le temps de la livraison, les chevaux risquent de chercher à <b>s'échapper</b>. Il ne faut pas attendre d'être en rupture totale.</p>
+        <p style="margin-top:6px;">Petits plus si tu as le temps : caresses, un moment de présence, un peu de pain dur.</p>
+      </div>
+    </div>
+
+    <!-- Checkbox confirmation -->
+    <div class="popup-check-area" onclick="toggleCheck()" id="checkArea">
+      <input type="checkbox" id="readCheck" onchange="updateBtn()" onclick="event.stopPropagation()">
+      <label for="readCheck">J'ai bien lu les deux points importants ci-dessus</label>
+    </div>
+
+    <button class="btn-fermer" id="btnFermer" onclick="closePopup()" disabled>
+      Accéder au guide →
+    </button>
+    <p class="btn-fermer-hint" id="btnHint">Développez les deux sections pour pouvoir continuer</p>
+  </div>
+</div>
+
+
+<!-- =========== BOUTON URGENCE (fixe) =========== -->
+<button class="btn-urgence" id="btnUrgence" onclick="openUrgence()" style="display:none;" aria-label="Revoir les infos urgentes">
+  <span class="pulse" aria-hidden="true"></span>
+  <span class="label">Infos urgentes</span>
+  🌡️
+</button>
+
+<!-- =========== NAVBAR =========== -->
+<nav class="navbar" role="navigation" aria-label="Navigation entre les animaux">
+  <span class="nav-logo">🌿 Pendant mon <span>absence</span></span>
+  <div class="nav-links">
+    <a href="#lapins" class="nav-btn rabbit">🐰 Lapins</a>
+    <a href="#chevaux" class="nav-btn horse">🐴 Chevaux</a>
+    <a href="#poules" class="nav-btn hen">🐔 Poules</a>
+    <a href="#chats" class="nav-btn cat">🐱 Chats</a>
+    <a href="#bonus" class="nav-btn bonus">💛 Petits plus</a>
+  </div>
+</nav>
+
+<!-- =========== CONTENU PRINCIPAL =========== -->
+<main class="main-wrap">
+
+  <!-- COVER -->
+  <section class="page cover" id="accueil">
+    <div class="cover-top">
+      <div class="cover-leaf">🌿</div>
+      <h1>Pendant mon <span>absence</span></h1>
+      <p class="sub">Le petit guide de la maison &amp; des animaux — merci infiniment de prendre soin d'eux pendant ce temps, ça nous tient vraiment à cœur 💛</p>
+      <div class="cover-message">
+        Tu trouveras ci-dessous une page par animal, avec les tâches essentielles à cocher chaque jour, et quelques précisions utiles si besoin. Une petite section bonus à la fin, juste pour le plaisir — rien d'obligatoire là-dedans !
+      </div>
+      <div class="legend">
+        <div class="legend-item"><span class="box" style="display:inline-block;border-radius:6px;border:2px solid var(--ink-soft);width:14px;height:14px;"></span> à faire chaque jour</div>
+        <div class="legend-item">🌡️ point de vigilance canicule</div>
+        <div class="legend-item">💛 petit plus, pas obligatoire</div>
+      </div>
+      <div class="infos-pratiques">
+        <h3>Infos pratiques</h3>
+        <div class="infos-grid">
+          <div><b>Dates de l'absence :</b>  03/07/2026 - 26/07/2026</div>
+           <div><b>Vétérinaire chat :</b> 04 70 99 50 17 </div>
+          <div><b>Vétérinaire lapins :</b> 04 70 32 19 73 </div>
+          <div><b>Contact livraison foin :</b> 06 82 62 90 75</div>
+          <div><b>Vétérinaire / maréchal chevaux :</b> 04 70 99 50 17 / 06 47 41 00 83 </div>
+
+        </div>
+      </div>
+      <div class="toc">
+        <h3>Dans ce guide</h3>
+        <ul>
+          <li>🐰 Les lapins</li>
+          <li>🐴 Les chevaux</li>
+          <li>🐔 Les poules</li>
+          <li>🐱 Les chats</li>
+          <li>💛 Les petits plus</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cover-bottom">Merci mille fois pour tout ce que tu fais 🌿</div>
+  </section>
+
+  <!-- LAPINS -->
+  <span class="section-anchor" id="lapins"></span>
+  <section class="page" data-animal="lapins">
+    <div class="section-head rabbit-head">
+      <div class="badge">🐰</div>
+      <div>
+        <div class="tag">Tous les jours</div>
+        <h2>Les lapins</h2>
+      </div>
+    </div>
+    <div class="card rabbit-card">
+      <h3>À faire chaque jour</h3>
+      <ul class="checklist">
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Vérifier l'eau du bol et la remplacer par de l'eau fraîche (sans exception en ce moment, forte chaleur)</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Rincer et remplir le petit bac de rafraîchissement dans le clapier</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Vérifier qu'il y a du foin à disposition, en remettre généreusement si besoin</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Donner à manger : carottes, endives, salade (un seul type autorisé, voir fiche), un peu de pomme (moins souvent que le reste)</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Pain dur sans graine : possible à disposition, en option</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Compléter les granulés si la gamelle est vide</span></li>
+      </ul>
+    </div>
+    <div class="note rabbit-note">
+      <h4>🥕 Bon à savoir</h4>
+      <ul>
+        <li class="note-highlight"><span class="tag-important">🥬 Stock</span>La réserve de légumes tient environ <b>1 semaine et demie</b> — il faudra en racheter ensuite (voir la photo des produits précis à reprendre, les moins chers / habituels).</li>
+        <li class="note-highlight"><span class="tag-important">⚠️ Attention</span>Un seul type de salade est autorisé — se référer à la fiche fréquence/aliments en cas de doute.</li>
+        <li>Foin et granulés : le stock prévu est suffisant pour toute la durée, juste remettre dès que c'est vide.</li>
+      </ul>
+    </div>
+    <div class="alert">
+      <div class="alert-title">🌡️ Vigilance canicule — signes à vérifier chaque visite</div>
+      <p>Un lapin en difficulté peut sembler <b>amorphe</b> : il ne s'éloigne pas si on s'approche, ne se relève pas couché, ne réagit pas à une stimulation douce. Vérifier aussi la respiration (pas trop lente, pas trop rapide) et la chaleur des oreilles.</p>
+      <p><b>Si c'est le cas :</b></p>
+      <ul>
+        <li>Le rentrer dans la maison, qui est fraîche</li>
+        <li>Humidifier légèrement le corps et les oreilles avec de l'eau fraîche <b>(jamais glacée, pas de glaçons direct — risque de choc)</b></li>
+        <li>Lui proposer de l'eau</li>
+        <li>Le laisser se reposer au calme, sans stimulation</li>
+      </ul>
+      <p>Si après 20–30 min il ne se reprend pas, mieux vaut appeler le vétérinaire.</p>
+      <div class="vet-line">Vétérinaire : <span class="vet-blank"></span></div>
+      <div class="alert-trigger">
+        <button class="btn-alert-toggle" onclick="toggleAlertSignal(this, 'Coup de chaleur — lapin', 'Un lapin a montré des signes de coup de chaleur (amorphe, ne réagit pas). Voir la procédure dans le guide.')">
+          <span class="alert-box"></span>
+          <span>🚨 J'ai repéré ces signes chez un lapin — prévenir par mail</span>
+        </button>
+        <div class="alert-trigger-hint">À cocher seulement si tu observes vraiment ces signes — ça m'envoie un mail immédiatement.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHEVAUX -->
+  <span class="section-anchor" id="chevaux"></span>
+  <section class="page" data-animal="chevaux">
+    <div class="section-head horse-head">
+      <div class="badge">🐴</div>
+      <div>
+        <div class="tag">Tous les jours</div>
+        <h2>Les chevaux</h2>
+      </div>
+    </div>
+    <div class="card horse-card">
+      <h3>À faire chaque jour</h3>
+      <ul class="checklist">
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Vérifier la propreté de l'eau et que le système automatique fonctionne bien</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Par forte chaleur, et si c'est accessible : leur verser un seau d'eau fraîche dessus</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Vérifier le masque anti-mouches : pas de blessure sous le menton (frottement du scratch), pas de mouche coincée à l'intérieur</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>S'assurer que personne n'a perdu son masque</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Vérifier qu'il y a du foin à disposition</span></li>
+      </ul>
+    </div>
+    <div class="note horse-note">
+      <h4>🌾 Bon à savoir</h4>
+      <ul>
+        <li class="note-highlight"><span class="tag-important">⏰ Important</span>Anticiper environ <b>3 jours avant</b> la fin du foin et nous envoyer un message pour organiser la livraison. S'il n'y a plus rien à manger le temps de la livraison, ils risquent de chercher à s'échapper.</li>
+        <li>Petits plus si tu as le temps : caresses, un peu de pain dur, veiller à leur confort général.</li>
+      </ul>
+      <div class="alert-trigger">
+        <button class="btn-alert-toggle" onclick="toggleAlertSignal(this, 'Stock de foin bas — chevaux', 'Le stock de foin des chevaux arrive à environ 3 jours de la fin. Il faut organiser la livraison rapidement.')">
+          <span class="alert-box"></span>
+          <span>🚨 Le foin arrive à 3 jours de la fin — prévenir par mail</span>
+        </button>
+        <div class="alert-trigger-hint">À cocher quand tu vois que le stock devient bas — ça m'envoie un mail immédiatement.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POULES -->
+  <span class="section-anchor" id="poules"></span>
+  <section class="page" data-animal="poules">
+    <div class="section-head hen-head">
+      <div class="badge">🐔</div>
+      <div>
+        <div class="tag">Tous les jours</div>
+        <h2>Les poules</h2>
+      </div>
+    </div>
+    <div class="card hen-card">
+      <h3>Poules</h3>
+      <ul class="checklist">
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Eau fraîche tous les jours (même rigueur que pour les lapins)</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Vérifier que les distributeurs de grains sont toujours pleins, compléter au besoin</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Donner les restes de nourriture à jeter dans l'enclos</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Remplir la petite piscine et vérifier qu'elle reste propre</span></li>
+      </ul>
+      <div class="subgroup-label">🐣 Maman + ses 6 poussins (à part)</div>
+      <ul class="checklist">
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Mêmes vérifications, avec une attention particulière à l'eau pour les bébés</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Vérifier chacun des 6 poussins, tous les jours</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>S'assurer que leur maison n'a pas été poussée ou décalée (aucune sortie possible pour les poussins)</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CHATS -->
+  <span class="section-anchor" id="chats"></span>
+  <section class="page" data-animal="chats">
+    <div class="section-head cat-head">
+      <div class="badge">🐱</div>
+      <div>
+        <div class="tag">Tous les jours</div>
+        <h2>Les chats</h2>
+      </div>
+    </div>
+    <div class="card cat-card">
+      <h3>À faire chaque jour</h3>
+      <ul class="checklist">
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Remplir les gamelles anti-glouton chaque jour (pas à ras bord)</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Vérifier la propreté et la fraîcheur de l'eau (gamelle commune + gamelle dédiée)</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Kira : vérifier qu'elle rentre au moins une fois dans la journée, qu'elle boit et qu'elle mange</span></li>
+      </ul>
+      <h3 style="margin-top:14px;">Litières (x3) — environ tous les 3 jours</h3>
+      <ul class="checklist">
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Retirer les saletés du bac</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Si trop sale : vider et changer complètement le bac</span></li>
+      </ul>
+    </div>
+    <div class="note cat-note">
+      <h4>🛋️ Prévention fauteuil</h4>
+      <ul>
+        <li>L'un des chats fait parfois pipi sur le fauteuil — ça ne devrait pas arriver si les litières restent propres, mais un petit coup d'œil de temps en temps ne fait pas de mal.</li>
+        <li>Si besoin : nettoyer avec une lingette puis du sopalin (voir méthode de nettoyage), ne pas laisser sécher dessus (risque d'odeur et d'abîmer le cuir), bien rincer les produits utilisés.</li>
+      </ul>
+    </div>
+    <div class="note cat-note">
+      <h4>🍽️ Nourriture</h4>
+      <ul>
+        <li>Éviter de donner à volonté — sur plusieurs semaines elles risqueraient de trop grossir.</li>
+        <li>De la pâté pour Minie de temps en temps, et un peu de lait pour Kira au bon vouloir, pour leur faire plaisir.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- BONUS -->
+  <span class="section-anchor" id="bonus"></span>
+  <section class="page">
+    <div class="bonus-head">
+      <div class="icon">💛</div>
+      <h2>Les petits plus</h2>
+      <p>Rien d'obligatoire ici — juste des petites attentions en plus, si tu en as le temps et l'envie.</p>
+    </div>
+    <div class="bonus-grid">
+      <div class="bonus-card">
+        <h4>🐰 Lapins</h4>
+        <ul><li>Un peu de présence et de calme près du clapier, surtout par cette chaleur</li></ul>
+      </div>
+      <div class="bonus-card">
+        <h4>🐴 Chevaux</h4>
+        <ul>
+          <li>Petites caresses, un moment de présence</li>
+          <li>Un peu de pain dur, si tu en as envie</li>
+        </ul>
+      </div>
+      <div class="bonus-card">
+        <h4>🐔 Poules</h4>
+        <ul><li>Un petit coup d'œil curieux aux poussins, ils grandissent vite !</li></ul>
+      </div>
+      <div class="bonus-card">
+        <h4>🐱 Chats</h4>
+        <ul>
+          <li>Câlins et attention pour Minie, qui n'a pas l'habitude de rester seule</li>
+          <li>Jeux ou un peu de temps avec Kira aussi, si elle est dans le coin</li>
+        </ul>
+      </div>
+    </div>
+    <div class="photo-callout">
+      <span class="icon">📸</span>
+      Si tu peux, une petite photo ou vidéo des animaux de temps en temps me ferait <b>vraiment très plaisir</b> — demande-leur gentiment de poser 😉
+    </div>
+    <div class="footer-note">Merci encore pour tout 🌿 — à très vite !</div>
+  </section>
+
+</main>
+
+<!-- =========== BOUTONS FLOTTANTS =========== -->
+<div class="fab-group" id="fabGroup">
+  <div class="fab-row">
+    <span class="fab-label">Envoyer une note</span>
+    <button class="fab-btn msg" onclick="openModal('msg')" title="Envoyer un message ou une note">💬</button>
+  </div>
+  <div class="fab-row">
+    <span class="fab-label">Envoyer une photo</span>
+    <button class="fab-btn photo" onclick="openModal('photo')" title="Envoyer une photo d'un animal">📸</button>
+  </div>
+</div>
+
+<!-- =========== MODAL MESSAGE =========== -->
+<div class="modal-overlay" id="modalOverlay" style="display:none;" onclick="handleModalOutsideClick(event)">
+  <form class="modal-box" id="modalBox" onsubmit="return false;">
+    <input type="hidden" id="hiddenSubject" name="subject">
+    <input type="hidden" id="hiddenFromName" name="from_name">
+    <input type="hidden" id="hiddenMessage" name="message">
+    <h3 id="modalTitle">💬 Envoyer un message</h3>
+    <p class="modal-sub" id="modalSub">Une observation, une question, une petite nouvelle — tout est bienvenu !</p>
+
+    <div class="modal-field">
+      <label for="modalAnimal">Animal concerné</label>
+      <select id="modalAnimal">
+        <option value="">— Général / pas d'animal en particulier</option>
+        <option value="🐰 Lapins">🐰 Lapins</option>
+        <option value="🐴 Chevaux">🐴 Chevaux</option>
+        <option value="🐔 Poules">🐔 Poules</option>
+        <option value="🐱 Chats">🐱 Chats</option>
+      </select>
+    </div>
+
+    <div class="modal-field" id="fieldNote">
+      <label for="modalNote" id="labelNote">Ton message</label>
+      <textarea id="modalNote" placeholder="Tout va bien côté lapins aujourd'hui…" rows="4"></textarea>
+    </div>
+
+    <div class="modal-field" id="fieldPhoto" style="display:none;">
+      <label for="modalPhoto">Photo ou vidéo</label>
+      <input type="file" id="modalPhoto" name="attachment" accept="image/*,video/*" onchange="previewPhoto(this)">
+      <div class="photo-preview" id="photoPreview">
+        <img id="photoPreviewImg" src="" alt="Aperçu">
+      </div>
+      <div class="modal-field" style="margin-top:10px; margin-bottom:0;">
+        <label for="modalPhotoNote">Un petit mot (facultatif)</label>
+        <textarea id="modalPhotoNote" placeholder="Regardez comme ils ont l'air bien…" rows="2"></textarea>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-cancel" onclick="closeModal()">Annuler</button>
+      <button type="button" class="btn-send" id="btnSendModal" onclick="sendModal()">Envoyer ✉️</button>
+    </div>
+    <div class="modal-status" id="modalStatus"></div>
+  </form>
+</div>
+
+<script>
+  // État des sections lues
+  var sectionRead = {1: false, 2: false};
+
+  function toggleSection(btn, id, sectionNum) {
+    var el = document.getElementById(id);
+    var isOpen = el.classList.contains('open');
+    el.classList.toggle('open', !isOpen);
+    btn.setAttribute('aria-expanded', !isOpen);
+    if (!isOpen) {
+      btn.textContent = btn.textContent.replace('▾', '▴');
+      sectionRead[sectionNum] = true;
+      updateProgress();
+    } else {
+      btn.textContent = btn.textContent.replace('▴', '▾');
+    }
+  }
+
+  function updateProgress() {
+    var count = (sectionRead[1] ? 1 : 0) + (sectionRead[2] ? 1 : 0);
+    var pct = count * 50;
+    document.getElementById('progressBar').style.width = pct + '%';
+    var label = document.getElementById('progressLabel');
+    if (count === 0) label.textContent = 'Lisez les deux sections ci-dessous';
+    else if (count === 1) label.textContent = 'Bien ! Plus qu\'une section à ouvrir';
+    else label.textContent = 'Parfait, vous pouvez cocher et accéder au guide ✓';
+    updateBtn();
+  }
+
+  function toggleCheck() {
+    var cb = document.getElementById('readCheck');
+    cb.checked = !cb.checked;
+    updateBtn();
+  }
+
+  function updateBtn() {
+    var cb = document.getElementById('readCheck');
+    var btn = document.getElementById('btnFermer');
+    var hint = document.getElementById('btnHint');
+    var allRead = sectionRead[1] && sectionRead[2];
+
+    if (!allRead) {
+      btn.disabled = true;
+      hint.textContent = 'Développez les deux sections pour pouvoir continuer';
+    } else if (!cb.checked) {
+      btn.disabled = true;
+      hint.textContent = 'Cochez la case pour confirmer que vous avez lu';
+    } else {
+      btn.disabled = false;
+      hint.textContent = '';
+    }
+  }
+
+  function closePopup() {
+    var overlay = document.getElementById('popupOverlay');
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.25s ease';
+    try { localStorage.setItem('guideAnimauxPopupVu', '1'); } catch (e) {}
+    setTimeout(function() {
+      overlay.style.display = 'none';
+      document.getElementById('btnUrgence').style.display = 'flex';
+    }, 250);
+  }
+
+  function openUrgence() {
+    var overlay = document.getElementById('popupOverlay');
+    overlay.style.display = 'flex';
+    overlay.style.opacity = '1';
+    // Scroll popup to top
+    overlay.querySelector('.popup').scrollTop = 0;
+  }
+
+  // ===== Tâches du jour : cocher/décocher avec mémoire (remise à zéro chaque jour) =====
+  function todayKey() {
+    var d = new Date();
+    return 'guideAnimauxTaches_' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  }
+
+  function getCheckedTasks() {
+    try {
+      var raw = localStorage.getItem(todayKey());
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+
+  function saveCheckedTasks(arr) {
+    try { localStorage.setItem(todayKey(), JSON.stringify(arr)); } catch (e) {}
+  }
+
+  function taskIdFor(li) {
+    var list = Array.prototype.slice.call(document.querySelectorAll('.checklist li'));
+    return String(list.indexOf(li));
+  }
+
+  function toggleTask(li) {
+    li.classList.toggle('checked');
+    var id = taskIdFor(li);
+    var checked = getCheckedTasks();
+    var idx = checked.indexOf(id);
+    if (li.classList.contains('checked')) {
+      if (idx === -1) checked.push(id);
+    } else {
+      if (idx !== -1) checked.splice(idx, 1);
+    }
+    saveCheckedTasks(checked);
+    checkSectionCompletion(li);
+  }
+
+  // ===== Mail récap quand toutes les cases d'une rubrique sont cochées =====
+  var animalLabels = { lapins: '🐰 Lapins', chevaux: '🐴 Chevaux', poules: '🐔 Poules', chats: '🐱 Chats' };
+
+  function recapSentKey(animal) {
+    var d = new Date();
+    return 'guideAnimauxRecap_' + animal + '_' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  }
+
+  function checkSectionCompletion(li) {
+    var section = li.closest('.page[data-animal]');
+    if (!section) return;
+    var animal = section.getAttribute('data-animal');
+    var items = section.querySelectorAll('.checklist li');
+    var allChecked = Array.prototype.every.call(items, function(it) {
+      return it.classList.contains('checked');
+    });
+
+    var key = recapSentKey(animal);
+    var alreadySent = false;
+    try { alreadySent = localStorage.getItem(key) === '1'; } catch (e) {}
+
+    if (allChecked && !alreadySent) {
+      var tasksText = Array.prototype.map.call(items, function(it) {
+        var span = it.querySelector('span:not(.box)');
+        return '✓ ' + (span ? span.textContent : '');
+      }).join('\n');
+      var message = 'Toutes les tâches de la rubrique "' + animalLabels[animal] + '" ont été cochées aujourd\'hui :\n\n' + tasksText;
+      try {
+        emailjs.send('service_t83an58', 'template_cfq6q5m', {
+          subject: '✅ Récap — ' + animalLabels[animal] + ' (terminé)',
+          from_name: 'Guide animaux',
+          message: message
+        }).then(function() {
+          try { localStorage.setItem(key, '1'); } catch (e) {}
+        }).catch(function(err) {
+          console.error('Erreur envoi récap EmailJS:', err);
+        });
+      } catch (e) { console.error(e); }
+    } else if (!allChecked && alreadySent) {
+      // Si une case est décochée après envoi, on permet un nouvel envoi si tout est recoché
+      try { localStorage.removeItem(key); } catch (e) {}
+    }
+  }
+
+  // Restaure l'état des cases cochées pour la journée en cours
+  (function restoreTasks() {
+    var checked = getCheckedTasks();
+    if (!checked.length) return;
+    var list = document.querySelectorAll('.checklist li');
+    checked.forEach(function(id) {
+      var li = list[parseInt(id, 10)];
+      if (li) li.classList.add('checked');
+    });
+  })();
+
+  // ===== Alertes importantes : envoi d'un mail via EmailJS =====
+  (function initEmailJS() {
+    try { emailjs.init({ publicKey: 'DGpynSzt8dn6vIbkV' }); } catch (e) {}
+  })();
+
+  // ===== Modal Message / Photo (boutons flottants en bas à droite) =====
+  var currentModalType = 'msg';
+
+  function setModalStatus(text, kind) {
+    var status = document.getElementById('modalStatus');
+    status.textContent = text;
+    status.className = 'modal-status' + (kind ? ' ' + kind : '');
+  }
+
+  function resetModalFields() {
+    document.getElementById('modalAnimal').value = '';
+    document.getElementById('modalNote').value = '';
+    document.getElementById('modalPhotoNote').value = '';
+    document.getElementById('modalPhoto').value = '';
+    document.getElementById('photoPreview').style.display = 'none';
+    document.getElementById('photoPreviewImg').src = '';
+    setModalStatus('', '');
+    var btn = document.getElementById('btnSendModal');
+    btn.disabled = false;
+  }
+
+  function openModal(type) {
+    currentModalType = type;
+    resetModalFields();
+
+    var title = document.getElementById('modalTitle');
+    var sub = document.getElementById('modalSub');
+    var fieldNote = document.getElementById('fieldNote');
+    var fieldPhoto = document.getElementById('fieldPhoto');
+    var btn = document.getElementById('btnSendModal');
+
+    if (type === 'photo') {
+      title.textContent = '📸 Envoyer une photo';
+      sub.textContent = 'Une petite photo ou vidéo des loulous, ça fait toujours plaisir !';
+      fieldNote.style.display = 'none';
+      fieldPhoto.style.display = 'block';
+      btn.classList.add('photo-mode');
+      btn.textContent = 'Envoyer 📸';
+    } else {
+      title.textContent = '💬 Envoyer un message';
+      sub.textContent = 'Une observation, une question, une petite nouvelle — tout est bienvenu !';
+      fieldNote.style.display = 'block';
+      fieldPhoto.style.display = 'none';
+      btn.classList.remove('photo-mode');
+      btn.textContent = 'Envoyer ✉️';
+    }
+
+    document.getElementById('modalOverlay').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').style.display = 'none';
+  }
+
+  function handleModalOutsideClick(event) {
+    if (event.target === document.getElementById('modalOverlay')) {
+      closeModal();
+    }
+  }
+
+  function previewPhoto(input) {
+    var preview = document.getElementById('photoPreview');
+    var img = document.getElementById('photoPreviewImg');
+    var file = input.files && input.files[0];
+    if (file && file.type.indexOf('image/') === 0) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        img.src = e.target.result;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      preview.style.display = 'none';
+      img.src = '';
+    }
+  }
+
+  function sendModal() {
+    var btn = document.getElementById('btnSendModal');
+    var animal = document.getElementById('modalAnimal').value;
+
+    if (currentModalType === 'msg') {
+      var note = document.getElementById('modalNote').value.trim();
+      if (!note) {
+        setModalStatus('Écris un petit mot avant d\'envoyer 🙂', 'err');
+        return;
+      }
+      var subject = '💬 Message' + (animal ? ' — ' + animal : '');
+      var message = (animal ? '[' + animal + '] ' : '') + note;
+
+      btn.disabled = true;
+      setModalStatus('Envoi en cours…', '');
+
+      emailjs.send('service_t83an58', 'template_cfq6q5m', {
+        subject: subject,
+        from_name: 'Guide animaux',
+        message: message
+      }).then(function() {
+        setModalStatus('Message envoyé ✅', 'ok');
+        setTimeout(closeModal, 1200);
+      }).catch(function(err) {
+        console.error('Erreur envoi message EmailJS:', err);
+        btn.disabled = false;
+        setModalStatus('Échec de l\'envoi (pas de connexion ?). Réessaie.', 'err');
+      });
+
+    } else {
+      var fileInput = document.getElementById('modalPhoto');
+      var file = fileInput.files && fileInput.files[0];
+      if (!file) {
+        setModalStatus('Choisis une photo ou une vidéo avant d\'envoyer', 'err');
+        return;
+      }
+      var caption = document.getElementById('modalPhotoNote').value.trim();
+      var subjectP = '📸 Photo' + (animal ? ' — ' + animal : '');
+      var messageP = (animal ? '[' + animal + '] ' : '') + (caption || 'Photo envoyée, regarde la pièce jointe !');
+
+      document.getElementById('hiddenSubject').value = subjectP;
+      document.getElementById('hiddenFromName').value = 'Guide animaux';
+      document.getElementById('hiddenMessage').value = messageP;
+
+      btn.disabled = true;
+      setModalStatus('Envoi en cours…', '');
+
+      emailjs.sendForm('service_t83an58', 'template_cfq6q5m', document.getElementById('modalBox'))
+        .then(function() {
+          setModalStatus('Photo envoyée ✅', 'ok');
+          setTimeout(closeModal, 1200);
+        }).catch(function(err) {
+          console.error('Erreur envoi photo EmailJS:', err);
+          btn.disabled = false;
+          setModalStatus('Échec de l\'envoi (fichier trop lourd ou pas de connexion). Essaie une photo plus légère, ou envoie-la par un autre moyen.', 'err');
+        });
+    }
+  }
+
+  function alertSentKey(label) {
+    var d = new Date();
+    return 'guideAnimauxAlerte_' + label + '_' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  }
+
+  function toggleAlertSignal(btn, label, message) {
+    var key = alertSentKey(label);
+    var alreadySent = false;
+    try { alreadySent = localStorage.getItem(key) === '1'; } catch (e) {}
+
+    if (alreadySent) {
+      // Désactivation manuelle si déjà signalé (ex: signalé par erreur)
+      btn.classList.remove('sent');
+      try { localStorage.removeItem(key); } catch (e) {}
+      return;
+    }
+
+    // État "envoi en cours" — on ne coche pas tout de suite, pour éviter
+    // que le bouton "se coche bizarrement" si l'envoi est lent ou échoue.
+    if (btn.classList.contains('sending')) return; // évite le double-clic
+    btn.classList.add('sending');
+    btn.disabled = true;
+
+    emailjs.send('service_t83an58', 'template_cfq6q5m', {
+      subject: '🚨 Alerte — ' + label,
+      from_name: 'Guide animaux',
+      message: message
+    }).then(function() {
+      btn.classList.remove('sending');
+      btn.classList.add('sent');
+      try { localStorage.setItem(key, '1'); } catch (e) {}
+      btn.disabled = false;
+    }).catch(function(err) {
+      console.error('Erreur envoi EmailJS:', err);
+      btn.classList.remove('sending');
+      btn.classList.remove('sent');
+      btn.disabled = false;
+      alert('Le mail n\'a pas pu être envoyé (pas de connexion internet ?). Pense à prévenir par un autre moyen si besoin.');
+    });
+  }
+
+  // Restaure l'état "déjà signalé" des boutons d'alerte pour la journée en cours
+  (function restoreAlertButtons() {
+    document.querySelectorAll('.btn-alert-toggle').forEach(function(btn) {
+      var onclickAttr = btn.getAttribute('onclick') || '';
+      var match = onclickAttr.match(/toggleAlertSignal\(this,\s*'([^']+)'/);
+      if (!match) return;
+      var label = match[1];
+      var key = alertSentKey(label);
+      var sent = false;
+      try { sent = localStorage.getItem(key) === '1'; } catch (e) {}
+      if (sent) btn.classList.add('sent');
+    });
+  })();
+
+  // Highlight active nav section on scroll
+  var sections = ['lapins','chevaux','poules','chats','bonus','photo'];
+  var navBtns = document.querySelectorAll('.nav-btn');
+
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY + 120;
+    var current = '';
+    sections.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el && el.offsetTop <= scrollY) current = id;
+    });
+    navBtns.forEach(function(btn) {
+      var href = btn.getAttribute('href');
+      if (href && href === '#' + current) btn.classList.add('active');
+      else btn.classList.remove('active');
+    });
+  });
+
+  // Prevent body scroll while popup is open
+  document.getElementById('popupOverlay').addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') e.preventDefault();
+  });
+
+  // Affiche la popup uniquement si elle n'a jamais été validée sur cet appareil
+  // (déplacé ici pour s'assurer que btnUrgence est dans le DOM)
+  (function() {
+    var dejaVu = false;
+    try { dejaVu = localStorage.getItem('guideAnimauxPopupVu') === '1'; } catch (e) {}
+    if (!dejaVu) {
+      document.getElementById('popupOverlay').style.display = 'flex';
+    } else {
+      document.getElementById('btnUrgence').style.display = 'flex';
+    }
+  })();
+</script>
+</body>
+</html>
