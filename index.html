@@ -879,10 +879,13 @@
       <h1>Pendant mon <span>absence</span></h1>
       <p class="sub">Le petit guide de la maison &amp; des animaux — merci infiniment de prendre soin d'eux pendant ce temps, ça nous tient vraiment à cœur 💛</p>
       <div class="cover-message">
-              <div id="countdownWidget" class="countdown-widget"></div>
-
+        Tu trouveras ci-dessous une page par animal, avec les tâches essentielles à cocher chaque jour, et quelques précisions utiles si besoin. Une petite section bonus à la fin, juste pour le plaisir — rien d'obligatoire là-dedans !
       </div>
+      <div id="countdownWidget" class="countdown-widget"></div>
       <div class="legend">
+        <div class="legend-item"><span class="box" style="display:inline-block;border-radius:6px;border:2px solid var(--ink-soft);width:14px;height:14px;"></span> à faire chaque jour</div>
+        <div class="legend-item">🌡️ point de vigilance canicule</div>
+        <div class="legend-item">💛 petit plus, pas obligatoire</div>
       </div>
       <div class="infos-pratiques">
         <h3>Infos pratiques</h3>
@@ -1114,7 +1117,7 @@
             </tr>
           </thead>
           <tbody id="plantTableBody2">
-            <tr><td class="name-cell"><span>Orchidées</span></td><td><span>1x au début de la 3e/sem</span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
+            <tr><td class="name-cell"><span>Orchidée</span></td><td><span>1x au début de la 3e/sem</span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
           </tbody>
         </table>
 
@@ -1471,9 +1474,15 @@
     }
   }
 
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+
   window.addEventListener('DOMContentLoaded', function() {
     loadWeather();
     loadCountdown();
+    window.scrollTo(0, 0);
   });
   (function initEmailJS() {
     try { emailjs.init({ publicKey: 'DGpynSzt8dn6vIbkV' }); } catch (e) {}
