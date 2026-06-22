@@ -23,6 +23,9 @@
     --cat:#9279BD;
     --cat-bg:#EFE8F8;
     --cat-line:#CFBBE8;
+    --plant:#6E9456;
+    --plant-bg:#E4EEDD;
+    --plant-line:#BBD8A2;
     --alert:#D9694F;
     --alert-bg:#FBE6DF;
     --alert-line:#F0B7A3;
@@ -96,6 +99,7 @@
   .nav-btn.horse:hover,.nav-btn.horse.active{background:var(--horse-bg); color:#5C401F;}
   .nav-btn.hen:hover,.nav-btn.hen.active{background:var(--hen-bg); color:#73530C;}
   .nav-btn.cat:hover,.nav-btn.cat.active{background:var(--cat-bg); color:#4B3878;}
+  .nav-btn.plant:hover,.nav-btn.plant.active{background:var(--plant-bg); color:#3C5A2A;}
   .nav-btn.bonus:hover,.nav-btn.bonus.active{background:#FFF9E6; color:#7A6A00;}
 
   /* =========== URGENCE BUTTON =========== */
@@ -389,6 +393,7 @@
   .horse-head{background:var(--horse-bg); color:#5C401F;}
   .hen-head{background:var(--hen-bg); color:#73530C;}
   .cat-head{background:var(--cat-bg); color:#4B3878;}
+  .plant-head{background:var(--plant-bg); color:#3C5A2A;}
 
   /* =========== CARDS =========== */
   .card{border-radius:18px; padding:16px 20px 10px; margin-bottom:16px; box-shadow:0 2px 10px rgba(0,0,0,.04);}
@@ -434,6 +439,7 @@
   .horse-card{background:var(--horse-bg); color:#5C401F;}
   .hen-card{background:var(--hen-bg); color:#73530C;}
   .cat-card{background:var(--cat-bg); color:#4B3878;}
+  .plant-card{background:var(--plant-bg); color:#3C5A2A;}
 
   /* =========== NOTES =========== */
   .note{border-radius:16px; border:1.5px solid; padding:14px 18px 14px 16px; margin-bottom:14px; font-size:14px; line-height:1.55;}
@@ -458,6 +464,31 @@
   .horse-note{border-color:var(--horse-line); background:#FBF5EC; color:#54391A;}
   .hen-note{border-color:var(--hen-line); background:#FFFAEC; color:#6A4C09;}
   .cat-note{border-color:var(--cat-line); background:#F9F6FD; color:#42316E;}
+  .plant-note{border-color:var(--plant-line); background:#F1F6EC; color:#3C5A2A;}
+
+  /* =========== TABLEAU ARROSAGE PLANTES =========== */
+  .plant-table-wrap{overflow-x:auto; margin-top:6px;}
+  .plant-table{width:100%; border-collapse:collapse; font-size:12.5px; min-width:480px;}
+  .plant-table th{
+    background:#DCEACB; color:#3C5A2A; font-family:'Quicksand',sans-serif;
+    font-weight:700; padding:8px 5px; text-align:center; border:1px solid #C7DAB4;
+  }
+  .plant-table td{border:1px solid #DCE7CF; padding:8px 5px; text-align:center; background:rgba(255,255,255,.5);}
+  .plant-table td.name-cell{text-align:left; padding-left:10px;}
+  .plant-table input[type="text"]{
+    width:100%; border:none; background:transparent; font-family:'Nunito',sans-serif;
+    font-size:12.5px; color:#3C5A2A; font-weight:700; outline:none;
+  }
+  .plant-table input[type="text"]::placeholder{color:#8FAE7A; font-weight:600;}
+  .day-box{
+    width:18px; height:18px; border-radius:5px; border:2px solid #6E9456;
+    display:inline-block; cursor:pointer; position:relative; transition:background .15s;
+  }
+  .day-box.day-checked{background:#6E9456;}
+  .day-box.day-checked::after{
+    content:'✓'; position:absolute; inset:0; display:flex; align-items:center;
+    justify-content:center; color:#fff; font-size:11px; font-weight:900;
+  }
 
   /* =========== ALERT BOX =========== */
   .alert{background:var(--alert-bg); border:2px solid var(--alert-line); border-radius:18px; padding:16px 20px; margin-top:6px;}
@@ -787,6 +818,7 @@
     <a href="#chevaux" class="nav-btn horse">🐴 Chevaux</a>
     <a href="#poules" class="nav-btn hen">🐔 Poules</a>
     <a href="#chats" class="nav-btn cat">🐱 Chats</a>
+    <a href="#plantes" class="nav-btn plant">🪴 Plantes</a>
     <a href="#bonus" class="nav-btn bonus">💛 Petits plus</a>
   </div>
 </nav>
@@ -826,6 +858,7 @@
           <li>🐴 Les chevaux</li>
           <li>🐔 Les poules</li>
           <li>🐱 Les chats</li>
+          <li>🪴 Les plantes</li>
           <li>💛 Les petits plus</li>
         </ul>
       </div>
@@ -986,6 +1019,79 @@
       <ul>
         <li>Éviter de donner à volonté — sur plusieurs semaines elles risqueraient de trop grossir.</li>
         <li>De la pâté pour Minie de temps en temps, et un peu de lait pour Kira au bon vouloir, pour leur faire plaisir.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PLANTES -->
+  <span class="section-anchor" id="plantes"></span>
+  <section class="page">
+    <div class="section-head plant-head">
+      <div class="badge">🪴</div>
+      <div>
+        <div class="tag">Intérieur & extérieur</div>
+        <h2>Les plantes</h2>
+      </div>
+    </div>
+
+    <div class="note plant-note">
+      <h3>Plantes d'intérieur — cuisine / salle à manger</h3>
+      <ul>
+        
+        <li class="note-highlight"> Toutes les plantes à entretenir sont posées en bas, dans la cuisine / salle à manger</li></li>
+        <li class="note-highlight">Chaque plante a un post-it indiquant sa fréquence d'arrosage — s'y référer avant d'arroser</span></li>
+      </ul>
+    </div>
+
+    <div class="note plant-note">
+      <h4>💧 Petit tableau pour ne pas s'emmêler</h4>
+      <ul>
+        <li>Note le nom de la plante (depuis le post-it) et sa fréquence, puis coche le jour où tu l'arroses — ça évite d'arroser deux fois ou d'oublier.</li>
+      </ul>
+      <div class="plant-table-wrap">
+        <table class="plant-table">
+          <thead>
+            <tr>
+              <th style="text-align:left; padding-left:10px;">Plante</th>
+              <th>Fréquence</th>
+              <th>L</th><th>M</th><th>M</th><th>J</th><th>V</th><th>S</th><th>D</th>
+            </tr>
+          </thead>
+          <tbody id="plantTableBody">
+            <tr><td class="name-cell"><input type="text" placeholder="Nom de la plante"></td><td><input type="text" placeholder="ex : 1x/sem"></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
+            <tr><td class="name-cell"><input type="text" placeholder="Nom de la plante"></td><td><input type="text" placeholder="ex : 1x/sem"></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
+            <tr><td class="name-cell"><input type="text" placeholder="Nom de la plante"></td><td><input type="text" placeholder="ex : 1x/sem"></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
+            <tr><td class="name-cell"><input type="text" placeholder="Nom de la plante"></td><td><input type="text" placeholder="ex : 1x/sem"></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
+            <tr><td class="name-cell"><input type="text" placeholder="Nom de la plante"></td><td><input type="text" placeholder="ex : 1x/sem"></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
+            <tr><td class="name-cell"><input type="text" placeholder="Nom de la plante"></td><td><input type="text" placeholder="ex : 1x/sem"></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-head plant-head" style="margin-top:18px;">
+      <div class="badge">☀️</div>
+      <div>
+        <div class="tag">Tous les jours</div>
+        <h2>Extérieur</h2>
+      </div>
+    </div>
+
+    <div class="card plant-card">
+      <h3>À arroser chaque jour (forte chaleur)</h3>
+      <ul class="checklist">
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Le petit jardin potager de la cour</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Toutes les fleurs autour, dans la cour</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Les fleurs dans les bacs (autour et en dehors de la cour)</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Le rond de plantes</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Les plantes autour de chez Mamichou</span></li>
+      </ul>
+    </div>
+
+    <div class="note plant-note">
+      <h4>☀️ Bon à savoir</h4>
+      <ul>
+        <li class="note-highlight"><span class="tag-important">Important</span>Avec cette chaleur, l'extérieur a besoin d'eau <b>tous les jours</b> — sans ça, les plantes meurent vite.</li>
       </ul>
     </div>
   </section>
@@ -1480,7 +1586,7 @@
   })();
 
   // Highlight active nav section on scroll
-  var sections = ['lapins','chevaux','poules','chats','bonus','photo'];
+  var sections = ['lapins','chevaux','poules','chats','plantes','bonus','photo'];
   var navBtns = document.querySelectorAll('.nav-btn');
 
   window.addEventListener('scroll', function() {
@@ -1513,6 +1619,49 @@
       document.getElementById('btnUrgence').style.display = 'flex';
     }
   })();
+
+  function checkWeeklyPlantReload() {
+  const today = new Date();
+
+  const year = today.getFullYear();
+  const start = new Date(year, 0, 1);
+  const weekNumber = Math.ceil((((today - start) / 86400000) + start.getDay() + 1) / 7);
+
+  const currentWeekKey = `${year}-W${weekNumber}`;
+  const lastWeek = localStorage.getItem("lastPlantWeek");
+
+  if (lastWeek !== currentWeekKey) {
+    localStorage.setItem("lastPlantWeek", currentWeekKey);
+
+    // reset uniquement plantes
+    document.querySelectorAll(".day-box").forEach(box => {
+      box.classList.remove("day-checked");
+    });
+  }
+}
+
+function checkDailyReload() {
+  const today = new Date().toISOString().split("T")[0];
+  const last = localStorage.getItem("lastDailyReload");
+
+  if (last !== today) {
+    localStorage.setItem("lastDailyReload", today);
+
+    // checklist animaux
+    document.querySelectorAll(".checklist li").forEach(li => {
+      li.classList.remove("checked");
+    });
+
+    // popup checkbox
+    const check = document.getElementById("readCheck");
+    if (check) check.checked = false;
+  }
+}
+
+window.addEventListener("load", () => {
+  checkDailyReload();
+  checkWeeklyPlantReload();
+});
 </script>
 </body>
 </html>
