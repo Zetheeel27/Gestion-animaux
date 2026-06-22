@@ -1347,33 +1347,65 @@
       });
 
     } else {
-      var fileInput = document.getElementById('modalPhoto');
-      var file = fileInput.files && fileInput.files[0];
-      if (!file) {
-        setModalStatus('Choisis une photo ou une vidéo avant d\'envoyer', 'err');
-        return;
-      }
-      var caption = document.getElementById('modalPhotoNote').value.trim();
-      var subjectP = '📸 Photo' + (animal ? ' — ' + animal : '');
-      var messageP = (animal ? '[' + animal + '] ' : '') + (caption || 'Photo envoyée, regarde la pièce jointe !');
+  var fileInput = document.getElementById('modalPhoto');
+  var file = fileInput.files && fileInput.files[0];
 
-      document.getElementById('hiddenSubject').value = subjectP;
-      document.getElementById('hiddenFromName').value = 'Guide animaux';
-      document.getElementById('hiddenMessage').value = messageP;
+  if (!file) {
+    setModalStatus('Choisis une photo ou une vidéo avant d\'envoyer', 'err');
+    return;
+  }
 
-      btn.disabled = true;
-      setModalStatus('Envoi en cours…', '');
+  var caption = document.getElementById('modalPhotoNote').value.trim();
+  var animal = document.getElementById('modalAnimal').value;
 
-      emailjs.sendForm('service_t83an58', 'template_cfq6q5m', document.getElementById('modalBox'))
-        .then(function() {
-          setModalStatus('Photo envoyée ✅', 'ok');
-          setTimeout(closeModal, 1200);
-        }).catch(function(err) {
-          console.error('Erreur envoi photo EmailJS:', err);
-          btn.disabled = false;
-          setModalStatus('Échec de l\'envoi (fichier trop lourd ou pas de connexion). Essaie une photo plus légère, ou envoie-la par un autre moyen.', 'err');
-        });
+  btn.disabled = true;
+  setModalStatus('Téléversement de la photo…', '');
+
+  var formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', 'guide_animaux');
+
+  fetch('https://api.cloudinary.com/v1_1/dkahgcusp/auto/upload', {
+    method: 'POST',
+    body: formData
+  })
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(data) {
+
+    if (!data.secure_url) {
+      throw new Error('Upload Cloudinary échoué');
     }
+
+    var subject = '📸 Photo' + (animal ? ' — ' + animal : '');
+
+    var message =
+      (animal ? '[' + animal + ']\n\n' : '') +
+      (caption ? caption + '\n\n' : '') +
+      'Photo / vidéo :\n' +
+      data.secure_url;
+
+    return emailjs.send(
+      'service_t83an58',
+      'template_cfq6q5m',
+      {
+        subject: subject,
+        from_name: 'Guide animaux',
+        message: message
+      }
+    );
+  })
+  .then(function() {
+    setModalStatus('Photo envoyée ✅', 'ok');
+    setTimeout(closeModal, 1200);
+  })
+  .catch(function(err) {
+    console.error(err);
+    btn.disabled = false;
+    setModalStatus('Échec de l\'envoi.', 'err');
+  });
+}
   }
 
   function alertSentKey(label) {
