@@ -1046,7 +1046,6 @@
     <div class="note plant-note">
       <h4>💧 Petit tableau pour ne pas s'emmêler</h4>
       <ul>
-        <li>Note le nom de la plante (depuis le post-it) et sa fréquence, puis coche le jour où tu l'arroses — ça évite d'arroser deux fois ou d'oublier.</li>
       </ul>
       <div class="plant-table-wrap">
         <table class="plant-table">
@@ -1058,16 +1057,27 @@
             </tr>
           </thead>
           <tbody id="plantTableBody">
-            <tr><td class="name-cell"><input type="text" placeholder="Nom de la plante"></td><td><input type="text" placeholder="ex : 1x/sem"></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
-            <tr><td class="name-cell"><input type="text" placeholder="Nom de la plante"></td><td><input type="text" placeholder="ex : 1x/sem"></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
-            <tr><td class="name-cell"><input type="text" placeholder="Nom de la plante"></td><td><input type="text" placeholder="ex : 1x/sem"></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
-            <tr><td class="name-cell"><input type="text" placeholder="Nom de la plante"></td><td><input type="text" placeholder="ex : 1x/sem"></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
-            <tr><td class="name-cell"><input type="text" placeholder="Nom de la plante"></td><td><input type="text" placeholder="ex : 1x/sem"></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
-            <tr><td class="name-cell"><input type="text" placeholder="Nom de la plante"></td><td><input type="text" placeholder="ex : 1x/sem"></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
+            <tr><td class="name-cell">Plante verte</td><td><span>1x/sem</span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
           </tbody>
         </table>
+        
+                <table class="plant-table">
+          <thead>
+            <tr>
+              <th style="text-align:left; padding-left:10px;">Plante</th>
+              <th>Fréquence</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="plantTableBody">
+            <tr><td class="name-cell"><span>Orchidée</span></td><td><span>1x au début de la 3e/sem</span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span>
+          </tbody>
+        </table>
+
+
       </div>
-    </div>
+    </div>  
+
 
     <div class="section-head plant-head" style="margin-top:18px;">
       <div class="badge">☀️</div>
