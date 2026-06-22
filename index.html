@@ -70,7 +70,11 @@
     display:flex;
     align-items:center;
     gap:4px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
   }
+  .nav-links::-webkit-scrollbar{display:none;}
   .nav-btn{
     display:flex;
     align-items:center;
@@ -711,7 +715,8 @@
   @media(max-width:640px){
     .navbar{gap:2px; padding:0 8px;}
     .nav-logo{display:none;}
-    .nav-btn{padding:7px 10px; font-size:12px; gap:4px;}
+    .nav-btn{padding:7px 10px; font-size:12px; gap:4px; flex-shrink:0;}
+    .nav-links{justify-content:flex-start;}
     .page{padding:12mm 6mm;}
     .bonus-grid{grid-template-columns:1fr;}
     .infos-grid{grid-template-columns:1fr;}
@@ -1038,8 +1043,8 @@
       <h3>Plantes d'intérieur — cuisine / salle à manger</h3>
       <ul>
         
-        <li class="note-highlight"> Toutes les plantes à entretenir sont posées en bas, dans la cuisine / salle à manger</li></li>
-        <li class="note-highlight">Chaque plante a un post-it indiquant sa fréquence d'arrosage — s'y référer avant d'arroser</span></li>
+        <li class="note-highlight"> Toutes les plantes à entretenir sont posées en bas, dans la cuisine / salle à manger</li>
+        <li class="note-highlight">Chaque plante a un post-it indiquant sa fréquence d'arrosage — s'y référer avant d'arroser</li>
       </ul>
     </div>
 
@@ -1069,8 +1074,8 @@
               <th></th>
             </tr>
           </thead>
-          <tbody id="plantTableBody">
-            <tr><td class="name-cell"><span>Orchidée</span></td><td><span>1x au début de la 3e/sem</span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span>
+          <tbody id="plantTableBody2">
+            <tr><td class="name-cell"><span>Orchidée</span></td><td><span>1x au début de la 3e/sem</span></td><td><span class="day-box" onclick="this.classList.toggle('day-checked')"></span></td></tr>
           </tbody>
         </table>
 
@@ -1596,7 +1601,7 @@
   })();
 
   // Highlight active nav section on scroll
-  var sections = ['lapins','chevaux','poules','chats','plantes','bonus','photo'];
+  var sections = ['lapins','chevaux','poules','chats','plantes','bonus'];
   var navBtns = document.querySelectorAll('.nav-btn');
 
   window.addEventListener('scroll', function() {
