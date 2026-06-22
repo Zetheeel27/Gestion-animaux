@@ -452,7 +452,7 @@
   .note li.note-highlight .tag-important{
     display:inline-block; font-size:11px; font-weight:900; letter-spacing:.03em;
     text-transform:uppercase; padding:2px 8px; border-radius:999px;
-    background:currentColor; color:#fff; margin-right:7px; vertical-align:1px;
+    background:#fcefe2; color:#6b3a12; margin-right:7px; vertical-align:1px;
   }
   .rabbit-note{border-color:var(--rabbit-line); background:#FFF8F0; color:#6B3A12;}
   .horse-note{border-color:var(--horse-line); background:#FBF5EC; color:#54391A;}
@@ -689,6 +689,17 @@
     .fab-group{bottom:16px; right:12px;}
     .fab-btn{width:46px; height:46px; font-size:20px;}
   }
+
+  .highlight-vet{
+  background: #fff;
+  border: 2px solid var(--alert-line);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: inline-block;
+  font-weight: 800;
+  color: #7A3019;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
@@ -847,9 +858,11 @@
       <ul>
         <li class="note-highlight"><span class="tag-important">🥬 Stock</span>La réserve de légumes tient environ <b>1 semaine et demie</b> — il faudra en racheter ensuite (voir la photo des produits précis à reprendre, les moins chers / habituels).</li>
         <li class="note-highlight"><span class="tag-important">⚠️ Attention</span>Un seul type de salade est autorisé — se référer à la fiche fréquence/aliments en cas de doute.</li>
-        <li>Foin et granulés : le stock prévu est suffisant pour toute la durée, juste remettre dès que c'est vide.</li>
+        <li class="note-highlight"><span class="tag-important">🌾 Foin et granulés</span> : le stock prévu est suffisant pour toute la durée, juste remettre dès que c'est vide.</li>
       </ul>
+      
     </div>
+    
     <div class="alert">
       <div class="alert-title">🌡️ Vigilance canicule — signes à vérifier chaque visite</div>
       <p>Un lapin en difficulté peut sembler <b>amorphe</b> : il ne s'éloigne pas si on s'approche, ne se relève pas couché, ne réagit pas à une stimulation douce. Vérifier aussi la respiration (pas trop lente, pas trop rapide) et la chaleur des oreilles.</p>
@@ -861,7 +874,9 @@
         <li>Le laisser se reposer au calme, sans stimulation</li>
       </ul>
       <p>Si après 20–30 min il ne se reprend pas, mieux vaut appeler le vétérinaire.</p>
-      <div class="vet-line">Vétérinaire : <span class="vet-blank"></span></div>
+       <div class="vet-line highlight-vet">
+        <b>Clinique Vétérinaire Excelsia</b> : 04 70 32 19 73
+      </div>      
       <div class="alert-trigger">
         <button class="btn-alert-toggle" onclick="toggleAlertSignal(this, 'Coup de chaleur — lapin', 'Un lapin a montré des signes de coup de chaleur (amorphe, ne réagit pas). Voir la procédure dans le guide.')">
           <span class="alert-box"></span>
