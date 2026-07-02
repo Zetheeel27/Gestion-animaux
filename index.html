@@ -403,6 +403,31 @@
   .weather-widget .w-detail{display:none;}
   .weather-widget.canicule .w-temp{color:#A33A1F;}
 
+  /* =========== ALERTE EXTREME 38°+ (lapins à rentrer) =========== */
+  .extreme-alert-banner{
+    display:none;
+    position:fixed;
+    top:var(--nav-h);
+    left:0; right:0;
+    z-index:300;
+    background:#C23B24;
+    color:#fff;
+    padding:10px 16px;
+    text-align:center;
+    font-family:'Nunito',sans-serif;
+    font-size:13.5px;
+    font-weight:800;
+    line-height:1.4;
+    box-shadow:0 3px 14px rgba(194,59,36,0.45);
+    animation:extremeBlink 1.8s infinite;
+  }
+  .extreme-alert-banner.show{display:block;}
+  .extreme-alert-banner .ea-icon{margin-right:6px;}
+  @keyframes extremeBlink{
+    0%,100%{background:#C23B24;}
+    50%{background:#A32E1B;}
+  }
+
   .countdown-widget{
     margin:6px auto 0;
     max-width:140mm;
@@ -856,6 +881,11 @@
   <span class="weather-loading">🌤️ …</span>
 </div>
 
+<!-- =========== ALERTE EXTREME 38°+ (rentrer les lapins) =========== -->
+<div id="extremeAlertBanner" class="extreme-alert-banner" role="alert">
+  <span class="ea-icon">⚠️🚨🌡️</span><span id="extremeAlertText">Chaleur extrême : rentrer les lapins dans le placard !</span><span class="ea-icon">⚠️🚨🌡️</span>
+</div>
+
 <!-- =========== NAVBAR =========== -->
 <nav class="navbar" role="navigation" aria-label="Navigation entre les animaux">
   <span class="nav-logo">🌿 Pendant mon <span>absence</span></span>
@@ -867,6 +897,7 @@
     <a href="#plantes" class="nav-btn plant">🪴 Plantes</a>
     <a href="#bonus" class="nav-btn bonus">💛 Petits plus</a>
   </div>
+  <button type="button" class="nav-btn" id="btnAdmin" title="Admin" onclick="openAdminPanel()" style="margin-left:4px; opacity:0.55; font-size:15px; padding:8px 10px;">⚙️</button>
 </nav>
 
 <!-- =========== CONTENU PRINCIPAL =========== -->
@@ -923,7 +954,7 @@
       <h3>À faire chaque jour</h3>
       <ul class="checklist">
         <li onclick="toggleTask(this)"><span class="box"></span><span>Vérifier l'eau du bol et la remplacer par de l'eau fraîche (sans exception en ce moment, forte chaleur)</span></li>
-        <li onclick="toggleTask(this)"><span class="box"></span><span>Rincer et remplir le petit bac de rafraîchissement dans le clapier</span></li>
+        <li onclick="toggleTask(this)"><span class="box"></span><span>Vérifier que le biberon est propre (eau croupie) et rempli</span></li>
         <li onclick="toggleTask(this)"><span class="box"></span><span>Vérifier qu'il y a du foin à disposition, en remettre généreusement si besoin</span></li>
         <li onclick="toggleTask(this)"><span class="box"></span><span>Donner à manger : carottes, endives, salade (un seul type autorisé, voir fiche), un peu de pomme (moins souvent que le reste)</span></li>
         <li onclick="toggleTask(this)"><span class="box"></span><span>Pain dur sans graine : possible à disposition, en option</span></li>
@@ -1246,6 +1277,27 @@
   </form>
 </div>
 
+<!-- =========== PANNEAU ADMIN (simulation température) =========== -->
+<div class="modal-overlay" id="adminPanelOverlay" style="display:none;" onclick="handleAdminPanelOutsideClick(event)">
+  <form class="modal-box" id="adminPanelBox" onsubmit="return false;">
+    <h3>⚙️ Panneau admin</h3>
+    <p class="modal-sub">Simuler une température (remplace la météo réelle affichée sur la page). Utile pour tester l'alerte canicule.</p>
+
+    <div class="modal-field">
+      <label for="adminTempInput">Température simulée (°C)</label>
+      <input type="number" id="adminTempInput" placeholder="ex : 38" step="1">
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-cancel" onclick="resetSimulatedTemp()">Réinitialiser</button>
+      <button type="button" class="btn-send" onclick="applySimulatedTemp()">Appliquer</button>
+    </div>
+    <div class="modal-actions" style="margin-top:8px;">
+      <button type="button" class="btn-cancel" onclick="closeAdminPanel()" style="width:100%;">Fermer</button>
+    </div>
+  </form>
+</div>
+
 <script>
   // État des sections lues
   var sectionRead = {1: false, 2: false};
@@ -1410,8 +1462,36 @@
   })();
 
   // ===== Météo (Sorbier, 03) via Open-Meteo, sans clé API =====
+  var simulatedTemp = null; // si non-null, remplace la météo réelle (mode admin)
+
+  function renderWeather(temp, maxToday, weathercode) {
+    var widget = document.getElementById('weatherWidget');
+    var isCanicule = (maxToday !== null && maxToday !== undefined && maxToday >= 30) || (temp !== null && temp >= 30);
+    var isExtreme = (maxToday !== null && maxToday !== undefined && maxToday >= 38) || (temp !== null && temp >= 38);
+
+    var icon = weatherIconFor(weathercode);
+
+    widget.innerHTML =
+      '<span class="w-icon">' + icon + '</span>' +
+      '<span class="w-temp">' + (temp !== null ? temp + '°C' : '—') + '</span>' +
+      (simulatedTemp !== null ? '<span class="w-sim-tag">SIMULÉ</span>' : '');
+
+    widget.classList.toggle('canicule', isCanicule);
+
+    var extremeBanner = document.getElementById('extremeAlertBanner');
+    if (extremeBanner) {
+      extremeBanner.classList.toggle('show', isExtreme);
+    }
+  }
+
   function loadWeather() {
     var widget = document.getElementById('weatherWidget');
+
+    if (simulatedTemp !== null) {
+      renderWeather(simulatedTemp, simulatedTemp, null);
+      return;
+    }
+
     var lat = 46.3653, lon = 3.6628;
     var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
       '&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=Europe%2FParis';
@@ -1419,21 +1499,61 @@
     fetch(url).then(function(r) { return r.json(); }).then(function(data) {
       var cur = data.current_weather;
       var maxToday = data.daily && data.daily.temperature_2m_max ? data.daily.temperature_2m_max[0] : null;
-      var minToday = data.daily && data.daily.temperature_2m_min ? data.daily.temperature_2m_min[0] : null;
       var temp = cur ? Math.round(cur.temperature) : null;
-      var isCanicule = (maxToday !== null && maxToday >= 30) || (temp !== null && temp >= 30);
 
-      var icon = weatherIconFor(cur ? cur.weathercode : null);
-
-      widget.innerHTML =
-        '<span class="w-icon">' + icon + '</span>' +
-        '<span class="w-temp">' + (temp !== null ? temp + '°C' : '—') + '</span>';
-
-      widget.classList.toggle('canicule', isCanicule);
+      renderWeather(temp, maxToday, cur ? cur.weathercode : null);
     }).catch(function(err) {
       console.error('Erreur météo:', err);
       widget.innerHTML = '<span class="weather-loading">🌤️ Météo indisponible pour le moment</span>';
     });
+  }
+
+  // ===== Panneau admin : simulation de température (protégé par mot de passe) =====
+  var ADMIN_PASSWORD = 'Admin%';
+  var adminUnlocked = false;
+
+  function openAdminPanel() {
+    if (!adminUnlocked) {
+      var pwd = prompt('Mot de passe admin :');
+      if (pwd === null) return;
+      if (pwd !== ADMIN_PASSWORD) {
+        alert('Mot de passe incorrect.');
+        return;
+      }
+      adminUnlocked = true;
+    }
+    document.getElementById('adminPanelOverlay').style.display = 'flex';
+    var input = document.getElementById('adminTempInput');
+    input.value = simulatedTemp !== null ? simulatedTemp : '';
+    input.focus();
+  }
+
+  function closeAdminPanel() {
+    document.getElementById('adminPanelOverlay').style.display = 'none';
+  }
+
+  function handleAdminPanelOutsideClick(event) {
+    if (event.target === document.getElementById('adminPanelOverlay')) {
+      closeAdminPanel();
+    }
+  }
+
+  function applySimulatedTemp() {
+    var input = document.getElementById('adminTempInput');
+    var val = parseFloat(input.value);
+    if (isNaN(val)) {
+      alert('Entre une température valide (ex : 38).');
+      return;
+    }
+    simulatedTemp = Math.round(val);
+    loadWeather();
+    closeAdminPanel();
+  }
+
+  function resetSimulatedTemp() {
+    simulatedTemp = null;
+    loadWeather();
+    closeAdminPanel();
   }
 
   function weatherIconFor(code) {
